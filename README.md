@@ -1,59 +1,72 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+![Output Image](assets/imgs/readmepic.jpg)
 
-Welcome LRomero2,
+I can't believe how long this took me to figure out but I'm so glad it's finally worked! 
+I tried a few different approaches but I couldn't quite get them to work out so I changed the code a lot since my first try. 
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use.
+## First of all I changed the code to this:
 
-## Gitpod Reminders
+$("#trigger").click(function(){
+  var HolidayDates = new Date();
+  var Christmas = new Date(2021,12,25)
+  var NewYear = new Date(2022,01,01)
+  var Valentines = new Date(2022,02,14)
+  var CalcDaysUntil = parseInt((Valentines-HolidayDates)/(24*3600*1000));
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+  $("#days-until").append("<li>" + CalcDaysUntil.toString()+" days until Christmas</li>");
+  $("#days-until").append("<li>" + CalcDaysUntil.toString()+" days until New Year</li>");
+  $("#days-until").append("<li>" + CalcDaysUntil.toString()+" days until Valentines Day</li>");
+})
 
-`python3 -m http.server`
+However I then found it tricky to work in the .forEach to display each date of each holiday.
 
-A blue button should appear to click: _Make Public_,
+So I changed the method and used an Array instead that allowed me to target each item accordingly. 
+I did a lot of research in the end because a bug was planted so that the math wouldn't be calculated correctly. What I thought would have taken me 
+a couple of hours actually took me two days in all and that surprised me. It was getting the dates correct that took the time.
+I learned a lot though including many different ways of solving this issue, however I didn't feel that the other methods displayed an
+example of clean code at all and they were quite lengthy so I decided to stick with this approach.
 
-Another blue button should appear to click: _Open Browser_.
+## The final code ended up as this:
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+$("#trigger").click(function () {
+  const holidayDates = [
+    [new Date(2021,11,25), ('days until Christmas Day')], 
+    [new Date(2022,0,01), ('days until New Years Day')], 
+    [new Date(2022,1,14), ('days until Valentines Day')]];
 
-A blue button should appear to click: _Make Public_,
+  const today = new Date();
+  
+  holidayDates.forEach((item) => 
+  {const calcDaysUntil = Math.ceil((item[0].getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+   
+    const countdownResult = `<li> ${calcDaysUntil} ${item[1]}</li>`;
+    $("#days-until").append(countdownResult);
+  });
+});
 
-Another blue button should appear to click: _Open Browser_.
+I'll explain what each line of this code does step by step.
+1. $("#trigger").click(function () { - This obviously triggers the function when the button is clicked that is in the HTML.
+2. const holidayDates = [ - This holds the data of the holiday dates and description in an Array.
+3. [new Date(2021,11,25), ('days until Christmas Day')], 
+    [new Date(2022,0,01), ('days until New Years Day')], 
+    [new Date(2022,1,14), ('days until Valentines Day')]]; - The Array itself.
+4. const today = new Date(); - This gets the current date for today so the math logic knows to calculate starting from today.
+5. holidayDates.forEach((item) => 
+  {const calcDaysUntil = Math.ceil((item[0].getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    console.log(item) - This targets each item in the Array. The Math.ceil kept coming up in my research and many blogs explained that
+    this makes sure the math rounds up the numbers correctly. That wasn't something I was very familiar with before. 
+    The item[0].getTime() gets the data for the new dates, in other words, the holiday dates themselves.
+    The today.getTime() gets the date today and calculates the number of days between the two dates.
+    Then this math logic is used / (1000 * 60 * 60 * 24));. It divides the time difference of both dates since there are 
+    1000 milliseconds in a day, 60 seconds in a minute, 60 minutes in an hour and 24 hours in a day (1000*60*60*24).
+6. const countdownResult = `<li> ${calcDaysUntil} ${item[1]}</li>`; - This calls the countDownResult which contains the
+days until the holiday arrives in calcDaysUntil, the item 0 and the item 1 which is the holiday description text. 
+7. $("#days-until").append(countdownResult); - This then calls the id within the list and will display the result and show the 
+executed code when the browser is opened. 
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
 
-To log into the Heroku toolbelt CLI:
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidently make it public then you can create a new one with _Regenerate API Key_.
 
-## Updates Since The Instructional Video
+All in all, it was a great exercise and I learnt more than I thought I would.
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
-
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
-
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
-
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
-
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
-
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
-
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
-
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
-
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
-
----
-
-Happy coding!
