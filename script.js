@@ -1,4 +1,6 @@
-$("#trigger").click(function () {
+$("#trigger").ready(function(){
+  $("button").click(function(){
+  
   const holidayDates = [
     [new Date(2021,11,25), ('days until Christmas Day')], 
     [new Date(2022,0,01), ('days until New Years Day')], 
@@ -14,3 +16,4 @@ $("#trigger").click(function () {
   });
 });
 
+})
