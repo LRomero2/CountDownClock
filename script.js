@@ -8,7 +8,7 @@ function createListItem(daysUntil, text){
 // - add a smiley face to every list item?
 const showSmile = function() {
   return ':-)';
-}
+};
 // This populates the day until when the button is clicked
 $("#trigger1").click(function(){
   const holidayDates = [
@@ -26,7 +26,7 @@ var todaysDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(
    const countdownResult = createListItem(calcDaysUntil, item[1]);
     $("#days-until").append(countdownResult).append(showSmile);
   });
-})
+});
 
 // This populates the days until when the mouse hovers over the image
 $("#trigger2").mouseover(function(){
@@ -45,4 +45,4 @@ var todaysDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(
    const countdownResult = createListItem(calcDaysUntil, item[1]);
      $("#days-until").append(countdownResult).append(showSmile);
   });
-})
+});
